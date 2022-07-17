@@ -1,0 +1,139 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "CourseForm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Course"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        @if (Model.Save_course.Id == Guid.Empty)
+        {
+            <li>@localizer["Add Course"]</li>
+        }
+        else
+        {
+            <li>@localizer["Update Course"]</li>
+        }
+    </ul>
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                @if (Model.Save_course.Id == Guid.Empty)
+                {
+                    <h4>@localizer["Add Course"]</h4>
+                }
+                else
+                {
+                    <h4>@localizer["Update Course"]</h4>
+                }
+            </div>
+            <div class="widget-inner">
+                <form asp-action="Save" class="edit-profile m-b30" enctype="multipart/form-data">
+                    @if (Model.Save_course.Id != Guid.Empty)
+                    {
+                        <input type="hidden" asp-for="Save_course.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="ml-auto">
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Title"]</label>
+                            <div>
+                                <input asp-for="Save_course.Title" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_course.Title)</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Price"]</label>
+                            <div>
+                                <input asp-for="Save_course.Price" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_course.Price)</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Specialty"]</label>
+                            <div>
+                                <select asp-for="Save_course.Specialty_id" class="form-control">
+                                    <option value="">@localizer["Select..."]</option>
+                                    @foreach (var specialty in Model.Get_course_specialtys)
+                                    {
+                                        <option value="@specialty.Id">@specialty.Specialty</option>
+                                    }
+                                </select>
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_course.Specialty_id)</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Instructor"]</label>
+                            <div>
+                                <select asp-for="Save_course.Instructor_id" class="form-control">
+                                    <option value="">@localizer["Select..."]</option>
+                                    @foreach (var instructor in Model.Get_instructors)
+                                    {
+                                        <option value="@instructor.Id">@instructor.Name</option>
+                                    }
+                                </select>
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_course.Instructor_id)</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Discount Value"]</label>
+                            <div>
+                                <input asp-for="Save_course.Discount_value" class="form-control" type="text" placeholder="%">
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Course Image"]</label>
+                            <div>
+                                @if (!string.IsNullOrEmpty(Model.Save_course.Image))
+                                {
+                                    <input type="hidden" asp-for="Save_course.Image" />
+                                }
+                                <input asp-for="Save_course.File" class="form-control" type="file">
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Rate"]</label>
+                            <div>
+                                <input asp-for="Save_course.Rate" class="form-control">
+                            </div>
+                        </div>
+                        <div class="seperator"></div>
+
+                        <div class="col-12 m-t20">
+                            <div class="ml-auto m-b5">
+                                <h3>2. @localizer["Description"]</h3>
+                            </div>
+                        </div>
+                        <div class="form-group col-12">
+                            <label class="col-form-label">@localizer["Course description"]</label>
+                            <div>
+                                <textarea asp-for="Save_course.Course_details" class="form-control"> </textarea>
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_course.Course_details)</label>
+                        </div>
+                        <div class="col-12">
+                            @if (!string.IsNullOrEmpty(Model.Save_course.Error))
+                            {
+                                <div class="alert alert-danger">@Model.Save_course.Error</div>
+                            }
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn">@localizer["Save changes"]</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>
+

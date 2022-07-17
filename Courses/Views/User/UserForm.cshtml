@@ -1,0 +1,108 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "UserForm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Admin"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        @if (string.IsNullOrEmpty(Model.Save_user.Id))
+        {
+            <li>@localizer["Add User"]</li>
+        }
+        else
+        {
+            <li>@localizer["Update User"]</li>
+        }
+    </ul>
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                @if (string.IsNullOrEmpty(Model.Save_user.Id))
+                {
+                    <h4>@localizer["Add User"]</h4>
+                }
+                else
+                {
+                    <h4>@localizer["Update User"]</h4>
+                }
+            </div>
+            <div class="widget-inner">
+                <form asp-action="Save" class="edit-profile m-b30">
+                    @if (!string.IsNullOrEmpty(Model.Save_user.Id))
+                    {
+                        <input type="hidden" asp-for="Save_user.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="ml-auto">
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Name"]</label>
+                            <div>
+                                <input asp-for="Save_user.Name" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_user.Name)</label>
+                        </div>
+                        @if (string.IsNullOrEmpty(Model.Save_user.Id))
+                        {
+                            <div class="form-group col-6">
+                                <label class="col-form-label">@localizer["Password"]</label>
+                                <div>
+                                    <input asp-for="Save_user.Password" type="password" id="myInput" class="form-control">
+                                </div>
+                                <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_user.Password)</label>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Save_user.Id))
+                        {
+                            <div class="form-group col-6">
+                                <label class="col-form-label">@localizer["New Password"]</label>
+                                <div>
+                                    <input asp-for="Save_user.Password" type="hidden" class="form-control">
+                                    <input asp-for="Save_user.New_password" type="password" id="myInput" class="form-control">
+                                </div>
+                            </div>
+                        }
+                        <div class="col-12">
+                            @if (!string.IsNullOrEmpty(Model.Save_user.Error))
+                            {
+                                <div class="alert alert-danger">@Model.Save_user.Error</div>
+                            }
+                        </div>
+                        <div class="form-group col-12">
+                            <div class="col-12">
+                                <input type="checkbox" onclick="myFunction()"> @localizer["Show Password"]
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn">@localizer["Save changes"]</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>
+
+@section Scripts{
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myInput");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+}

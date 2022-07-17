@@ -1,0 +1,140 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <!-- Page Heading Box ==== -->
+    <div class="page-banner ovbl-dark" style="background-image:url(/Client_assets/images/banner/banner3.jpg);">
+        <div class="container">
+            <div class="page-banner-entry">
+                <h1 class="text-white">@localizer["About Us"]</h1>
+            </div>
+        </div>
+    </div>
+    <div class="breadcrumb-row">
+        <div class="container">
+            <ul class="list-inline">
+                <li><a href="/home/index">@localizer["Home"]</a></li>
+                <li>@localizer["About Us"]</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Page Heading Box END ==== -->
+    <!-- Page Content Box ==== -->
+    <div class="content-block">
+        <!-- About Us ==== -->
+        <div class="section-area section-sp1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6 m-b30">
+                        <div class="feature-container">
+                            <div class="feature-md text-white m-b20">
+                                <a class="icon-cell"><img src="~/Client_assets/images/icon/icon1.png" alt="" /></a>
+                            </div>
+                            <div class="icon-content">
+                                <h5 class="ttr-tilte">@localizer["Certificate after the course"]</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 m-b30">
+                        <div class="feature-container">
+                            <div class="feature-md text-white m-b20">
+                                <a class="icon-cell"><img src="~/Client_assets/images/icon/icon2.png" alt="" /></a>
+                            </div>
+                            <div class="icon-content">
+                                <h5 class="ttr-tilte">@localizer["Always available"]</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 m-b30">
+                        <div class="feature-container">
+                            <div class="feature-md text-white m-b20">
+                                <a class="icon-cell"><img src="~/Client_assets/images/icon/icon3.png" alt="" /></a>
+                            </div>
+                            <div class="icon-content">
+                                <h5 class="ttr-tilte">@localizer["Improve yourself"]</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 m-b30">
+                        <div class="feature-container">
+                            <div class="feature-md text-white m-b20">
+                                <a class="icon-cell"><img src="~/Client_assets/images/icon/icon4.png" alt="" /></a>
+                            </div>
+                            <div class="icon-content">
+                                <h5 class="ttr-tilte">@localizer["Sharpen your skills"]</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About Us END ==== -->
+        <!-- Our Story ==== -->
+        <div class="section-area bg-gray section-sp1 our-story">
+            <div class="container">
+                <div class="row align-items-center d-flex">
+                    <div class="col-lg-5 col-md-12 heading-bx">
+                        <h2 class="m-b10">@localizer["About Us"]</h2>
+                        @Html.Raw(Model.Get_application_intro.About)
+                        <a href="/home/index" class="btn">@localizer["Back to home"]</a>
+                    </div>
+                    <div class="col-lg-7 col-md-12 heading-bx p-lr">
+                        <div class="video-bx">
+                            <img src="~/Client_assets/images/event/pic4.jpg" alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Our Story END ==== -->
+        <!-- About Content ==== -->
+        <div class="section-area section-sp2 bg-fix ovbl-dark join-bx text-center" style="background-image:url(/Client_assets/images/background/bg1.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="join-content-bx text-white">
+                            <h2>@localizer["Develop your level and"] <br /> @localizer["prepare yourself"]</h2>
+                            <h4><span class="counter">@Model.Get_cousrses.Count()</span> @localizer["Courses"]</h4>
+                            <p>@localizer["With us, you will learn all the skills required for the labor market, which makes you qualified for the labor market."]</p>
+                            <a href="/course/getAll" class="btn button-md">@localizer["Show Courses"]</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About Content END ==== -->
+        <!-- Testimonials ==== -->
+        <div class="section-area section-sp2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 heading-bx left">
+                        <h2 class="title-head text-uppercase">@localizer["what student say"]</h2>
+                        <p>@localizer["Student comments after the courses"]</p>
+                    </div>
+                </div>
+                <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
+                    @foreach (var comment in Model.Get_comments.Where(x => x.Approval == true))
+                    {
+                        <div class="item">
+                            <div class="testimonial-bx">
+                                <div class="testimonial-info">
+                                    <h5 class="name">@comment.Student_name</h5>
+                                    <p>-@comment.Course_specialty.Specialty</p>
+                                </div>
+                                <div class="testimonial-content">
+                                    <p>@comment.Content</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- Testimonials END ==== -->
+    </div>
+    <!-- Page Content Box END ==== -->
+</div>

@@ -1,0 +1,230 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "EventForm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Event"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        @if (Model.Save_event.Id == Guid.Empty)
+        {
+            <li>@localizer["Add Event"]</li>
+        }
+        else
+        {
+            <li>@localizer["Update Event"]</li>
+        }
+    </ul>
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                @if (Model.Save_event.Id == Guid.Empty)
+                {
+                    <h4>@localizer["Add Event"]</h4>
+                }
+                else
+                {
+                    <h4>@localizer["Update Event"]</h4>
+                }
+            </div>
+            <div class="widget-inner">
+                <form asp-action="Save" class="edit-profile m-b30" enctype="multipart/form-data">
+                    @if (Model.Save_event.Id != Guid.Empty)
+                    {
+                        <input type="hidden" id="id" asp-for="Save_event.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="ml-auto">
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Title"]</label>
+                            <div>
+                                <input asp-for="Save_event.Title" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_event.Title)</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Date"]</label>
+                            <div>
+                                <input asp-for="Save_event.Date" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_event.Date)</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Image"]</label>
+                            <div>
+                                @if (Model.Save_event.Id != Guid.Empty)
+                                {<input type="hidden" asp-for="Save_event.Image" />}
+                                <input type="file" asp-for="Save_event.File" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Timing"]</label>
+                            <div>
+                                <select asp-for="Save_event.Timing" class="form-control">
+                                    @if (Model.Save_event.Id == Guid.Empty)
+                                    {
+                                        <option value="">@localizer["Select..."]</option>
+                                    }
+
+                                    @if (Model.Save_event.Id != Guid.Empty)
+                                    {
+                                        string _checked = null;
+
+                                        if (Model.Save_event.Timing == 0)
+                                        {
+                                            _checked = "checked";
+                                        }
+                                        else
+                                        {
+                                            _checked = null;
+                                        }
+                                    }
+
+                                    <option value="0" _checked>AM</option>
+                                    <option value="1" _checked>PM</option>
+                                </select>
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_event.Timing)</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Lat"]</label>
+                            <div>
+                                <input id="lat" asp-for="Save_event.Lat" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_event.Lat)</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Long"]</label>
+                            <div>
+                                <input id="long" asp-for="Save_event.Long" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_event.Long)</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Address"]</label>
+                            <div>
+                                <input id="address" asp-for="Save_event.Address" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_event.Address)</label>
+                        </div>
+                        <div class="seperator"></div>
+
+                        <div class="form-group col-12">
+                            <label class="col-form-label">@localizer["Content"]</label>
+                            <div>
+                                <textarea asp-for="Save_event.Content" class="form-control"> </textarea>
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_event.Content)</label>
+                        </div>
+                        <div class="form-group col-12">
+                            <div id="map" style="height: 400px"></div>
+                        </div>
+                        <div class="col-12">
+                            @if (!string.IsNullOrEmpty(Model.Save_event.Error))
+                            {
+                                <div class="alert alert-danger">@Model.Save_event.Error</div>
+                            }
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn">@localizer["Save changes"]</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOUGOtZwB0oTmiUjt12TzCHQ5VA6rzlro&libraries=drawing&language=en"></script>
+
+    <script>
+        $(function () {
+            var id = $("#id").val();
+            var map;
+            var marker;
+            var geocoder = new google.maps.Geocoder();
+            var infowindow = new google.maps.InfoWindow();
+
+            function initialize() {
+
+                if (id == "")
+                    var latlng = new google.maps.LatLng(29.378996451104566, 47.98778772354126);
+                else
+                    var latlng = new google.maps.LatLng($("#lat").val(), $("#long").val());
+
+                var myOptions = {
+                    zoom: 15,
+                    center: latlng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                }
+                map = new google.maps.Map(document.getElementById("map"), myOptions);
+                marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map,
+                    title: ''
+                });
+                geocoder.geocode({
+                    'latLng': latlng
+                },
+                    function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            if (results[0]) {
+                                infowindow.setContent('<div>' + results[0].formatted_address + '</div>');
+                                infowindow.open(map, marker);
+                                $("#address").val(results[0].formatted_address);
+
+                            }
+                        }
+                    });
+                google.maps.event.addListener(map, 'click', function (event) {
+                    marker.setMap(null);
+                    placeMarker(event.latLng);
+                    $("#lat").val(event.latLng.lat());
+                    $("#long").val(event.latLng.lng());
+                    infowindow.open(map, marker);
+                    geocoder.geocode({
+                        'latLng': event.latLng
+                    },
+                        function (results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+                                if (results[0]) {
+                                    infowindow.setContent('<div>' + results[0].formatted_address + '</div>');
+                                    infowindow.open(map, marker);
+                                    $("#address").val(results[0].formatted_address);
+                                    $("#lat").val(event.latLng.lat());
+                                    $("#long").val(event.latLng.lng());
+                                }
+                            }
+                        });
+
+                });
+                function placeMarker(location) {
+                    marker = new google.maps.Marker({
+                        position: location,
+                        map: map
+
+                    });
+                    map.panTo(location);
+                }
+            }
+            $(function () {
+                initialize();
+            });
+
+        })
+
+
+    </script>
+}

@@ -1,0 +1,119 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="page-content bg-white">
+    <!-- inner page banner -->
+    <div class="page-banner ovbl-dark" style="background-image:url(/Client_assets/images/banner/banner1.jpg);">
+        <div class="container">
+            <div class="page-banner-entry">
+                <h1 class="text-white">@localizer["Frequently Asked Questions"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb row -->
+    <div class="breadcrumb-row">
+        <div class="container">
+            <ul class="list-inline">
+                <li><a href="/home/index">@localizer["Home"]</a></li>
+                <li>@localizer["Faqs"]</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Breadcrumb row END -->
+    <!-- contact area -->
+    <div class="content-block">
+        <!-- Your Faq -->
+        <div class="section-area section-sp1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-12">
+                        <div class="heading-bx left">
+                            <h2 class="m-b10 title-head">@localizer["Common Questions"]</h2>
+                        </div>
+                        <p class="m-b10">@localizer["Here are some questions that may be of help to you."]</p>
+                        <div class="ttr-accordion m-b30 faq-bx" id="accordion1">
+                            @{ int i = 0; }
+                            @foreach (var faq in Model.Get_faqs)
+                            {
+                                i++;
+                                <div class="panel">
+                                    <div class="acod-head">
+                                        <h6 class="acod-title">
+                                            <a data-toggle="collapse" href="@("#faq"+i)" class="collapsed" data-parent="@("#faq"+i)">
+                                                @faq.Question
+                                            </a>
+                                        </h6>
+                                    </div>
+                                    <div id="@("faq"+i)" class="acod-body collapse">
+                                        <div class="acod-content">@faq.Answer</div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                        <p class="m-b10">@localizer["For more information, you can go to the blogger to read many useful information."]</p>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <form asp-controller="Comment" asp-action="Save" class="contact-bx">
+                            <div class="heading-bx left">
+                                <h2 class="title-head">@localizer["Rate Us"]</h2>
+                                <p>@localizer["Write your review of our courses, we hope that you benefited from us"]</p>
+                            </div>
+                            <div class="row placeani">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label>@localizer["Your Name"]</label>
+                                            <input asp-for="Save_comment.Student_name" type="text" required class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <select class="form-control" asp-for="Save_comment.Course_specialty_id">
+                                                <option value="">@localizer["Course Specialty..."]</option>
+                                                @foreach (var specialty in Model.Get_course_specialtys)
+                                                {
+                                                    <option value="@specialty.Id">@specialty.Specialty</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label>@localizer["Type Message"]</label>
+                                            <textarea asp-for="Save_comment.Content" rows="4" class="form-control" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label>@localizer["Code"]</label>
+                                            <input name="captchaCode" type="text" required class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <button type="submit" value="Submit" class="btn button-md">@localizer["Send Message"]</button>
+                                </div>
+                            </div>
+                        </form>
+                        <br />
+                        <img id="img-captcha" src="~/get-captcha-image" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Your Faq End -->
+    </div>
+    <!-- contact area END -->
+</div>

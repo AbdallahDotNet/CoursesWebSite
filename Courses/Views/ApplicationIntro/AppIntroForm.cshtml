@@ -1,0 +1,106 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "AppIntroForm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Intro"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        @if (Model.Save_application_intro.Id == Guid.Empty)
+        {
+            <li>@localizer["Add Intro"]</li>
+        }
+        else
+        {
+            <li>@localizer["Update Intro"]</li>
+        }
+    </ul>
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                @if (Model.Save_application_intro.Id == Guid.Empty)
+                {
+                    <h4>@localizer["Add Intro"]</h4>
+                }
+                else
+                {
+                    <h4>@localizer["Update Intro"]</h4>
+                }
+            </div>
+            <div class="widget-inner">
+                <form asp-action="Save" class="edit-profile m-b30" enctype="multipart/form-data">
+                    @if (Model.Save_application_intro.Id != Guid.Empty)
+                    {
+                        <input type="hidden" asp-for="Save_application_intro.Id" />
+                    }
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label class="col-form-label">@localizer["Email"]</label>
+                        <div>
+                            <input asp-for="Save_application_intro.Email" class="form-control" type="text">
+                        </div>
+                        <label class="text-danger">@Html.ValidationMessageFor(x => x.Save_application_intro.Email)</label>
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="col-form-label">@localizer["Address"]</label>
+                        <div>
+                            <input asp-for="Save_application_intro.Address" class="form-control" type="text">
+                        </div>
+                        <label class="text-danger">@Html.ValidationMessageFor(x => x.Save_application_intro.Address)</label>
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="col-form-label">@localizer["Phone"]</label>
+                        <div>
+                            <input asp-for="Save_application_intro.Phone" class="form-control" type="text">
+                        </div>
+                        <label class="text-danger">@Html.ValidationMessageFor(x => x.Save_application_intro.Phone)</label>
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="col-form-label">@localizer["Coin"]</label>
+                        <div>
+                            <input asp-for="Save_application_intro.Coin" class="form-control" type="text">
+                        </div>
+                        <label class="text-danger">@Html.ValidationMessageFor(x => x.Save_application_intro.Coin)</label>
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="col-form-label">@localizer["Logo"]</label>
+                        <div>
+                            @if (!string.IsNullOrEmpty(Model.Save_application_intro.Logo))
+                            {
+                                <input type="hidden" asp-for="Save_application_intro.Logo" />
+                            }
+                            <input asp-for="Save_application_intro.File" class="form-control" type="file">
+                        </div>
+                    </div>
+                    <div class="form-group col-12">
+                        <label class="col-form-label">@localizer["About Us"]</label>
+                        <div>
+                            <textarea asp-for="Save_application_intro.About" class="form-control">
+                                @Html.Raw(Model.Save_application_intro.About)
+                            </textarea>
+                        </div>
+                        <label class="text-danger">@Html.ValidationMessageFor(x => x.Save_application_intro.About)</label>
+                    </div>
+                    <div class="col-12">
+                        @if (!string.IsNullOrEmpty(Model.Save_application_intro.Error))
+                        {
+                            <div class="alert alert-danger">@Model.Save_application_intro.Error</div>
+                        }
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn">@localizer["Save changes"]</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>

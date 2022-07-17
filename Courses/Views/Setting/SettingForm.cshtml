@@ -1,0 +1,116 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "NotifySettingForm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Setting"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        @if (Model.Save_setting.Id != Guid.Empty)
+        {
+            <li>@localizer["Update Setting"]</li>
+        }
+        else
+        {
+            <li>@localizer["Add Setting"]</li>
+        }
+
+    </ul>
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                @if (Model.Save_setting.Id != Guid.Empty)
+                {
+                    <h4>@localizer["Update Setting"]</h4>
+                }
+                else
+                {
+                    <h4>@localizer["Add Setting"]</h4>
+                }
+            </div>
+            <div class="widget-inner">
+                <form asp-action="Save" class="edit-profile m-b30">
+                    @if (Model.Save_setting.Id != Guid.Empty)
+                    {
+                        <input type="hidden" asp-for="Save_setting.Id" />
+                        <input type="hidden" asp-for="Save_setting.Password" />
+                    }
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="ml-auto">
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Email"]</label>
+                            <div>
+                                <input asp-for="Save_setting.Email" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_setting.Email)</label>
+                        </div>
+                        @if (Model.Save_setting.Id == Guid.Empty)
+                        {
+                            <div class="form-group col-6">
+                                <label class="col-form-label">@localizer["Password"]</label>
+                                <div>
+                                    <input asp-for="Save_setting.Password" type="password" id="myInput" class="form-control">
+                                </div>
+                            </div>
+                        }
+                        @if (Model.Save_setting.Id != Guid.Empty)
+                        {
+                            <div class="form-group col-6">
+                                <label class="col-form-label">@localizer["New Password"]</label>
+                                <div>
+                                    <input asp-for="Save_setting.New_password" type="password" id="myInput" class="form-control">
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Time Diffrence"]</label>
+                            <div>
+                                <input asp-for="Save_setting.Time_difference" class="form-control" placeholder="(-) for minus">
+                            </div>
+                        </div>
+                        <div class="seperator"></div>
+
+                        <div class="col-12">
+                            @if (!string.IsNullOrEmpty(Model.Save_setting.Error))
+                            {
+                                <div class="alert alert-danger">@Model.Save_setting.Error</div>
+                            }
+                        </div>
+                        <div class="form-group col-6">
+                            <div class="col-12">
+                                <input type="checkbox" onclick="myFunction()"> @localizer["Show Password"]
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn">@localizer["Save changes"]</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>
+
+@section Scripts{
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myInput");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+}

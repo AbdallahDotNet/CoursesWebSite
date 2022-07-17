@@ -1,0 +1,270 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Content -->
+<div class="page-content bg-white">
+    <!-- Main Slider -->
+    <div class="section-area section-sp1 ovpr-dark bg-fix online-cours" style="background-image:url(/Client_assets/images/background/bg1.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center text-white">
+                    <h2>@localizer["We have everything you need"]</h2>
+                    <h5>@localizer["Own Your Feature Learning New Skills Online"]</h5>
+                    <form class="cours-search" asp-controller="Course" asp-action="Search">
+                        <div class="input-group">
+                            <input asp-for="@Model.Search_course.Key" name="key" class="form-control" placeholder="@localizer["What course do you want to search for?"]" required>
+                            <div class="input-group-append">
+                                <button class="btn" type="submit">@localizer["Search"]</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="mw800 m-auto">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="cours-search-bx m-b30">
+                            <div class="icon-box">
+                                <h3><i class="ti-user"></i><span class="counter">@Model.Get_instructors.Where(x => x.Is_active == true).Count()</span></h3>
+                            </div>
+                            <span class="cours-search-text">@localizer["Instructors"]</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="cours-search-bx m-b30">
+                            <div class="icon-box">
+                                <h3><i class="ti-book"></i><span class="counter">@Model.Get_cousrses.Where(x => x.Is_active == true).Count()</span></h3>
+                            </div>
+                            <span class="cours-search-text">@localizer["Courses"]</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="cours-search-bx m-b30">
+                            <div class="icon-box">
+                                <h3><i class="ti-layout-list-post"></i><span class="counter">@Model.Get_blogs.Where(x => x.Is_active == true).Count()</span></h3>
+                            </div>
+                            <span class="cours-search-text">@localizer["Blogs"]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Slider -->
+    <div class="content-block">
+        <!-- Popular Courses -->
+        <div class="section-area section-sp2 popular-courses-bx">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 heading-bx left">
+                        <h2 class="title-head">@localizer["Courses"]</h2>
+                        <p>@localizer["Courses in all areas you need"]</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
+                        @foreach (var course in Model.Get_cousrses.Where(x => x.Is_active == true))
+                        {
+                            <div class="item">
+                                <div class="cours-bx">
+                                    <div class="action-box">
+                                        <img src="~/Upload/Courses/@course.Image" alt="">
+                                        <a href="/course/details/@course.Id" class="btn">@localizer["Read More"]</a>
+                                    </div>
+                                    <div class="info-bx text-center">
+                                        <h5><a href="/course/details/@course.Id">@course.Title.Substring(0,22)...</a></h5>
+                                        <span>@course.Course_specialty.Specialty</span>
+                                    </div>
+                                    <div class="cours-more-info">
+                                        <div class="review">
+                                            <span>@localizer["Rate"]</span>
+                                            <ul class="cours-star">
+                                                @{
+                                                    var rate = course.Rate;
+
+                                                    for (int i = 0; i < rate; i++)
+                                                    {
+                                                        <li class="active"><i class="fa fa-star"></i></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                        <div class="price">
+                                            @if (course.Discount_value != 0)
+                                            {
+                                                <del>@Model.Get_application_intro.Coin @course.Price</del>
+                                                <h5 class="text-primary">@Model.Get_application_intro.Coin @course.Price_after_discount</h5>
+                                            }
+                                            else
+                                            {
+                                                <h5 class="text-primary">@Model.Get_application_intro.Coin @course.Price</h5>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Popular Courses END -->
+        <div class="section-area section-sp2 bg-fix ovbl-dark join-bx text-center" style="background-image:url(/Client_assets/images/background/bg1.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="join-content-bx text-white">
+                            <h2>@localizer["Develop your level and"] <br /> @localizer["prepare yourself"]</h2>
+                            <h4><span class="counter">@Model.Get_cousrses.Where(x => x.Is_active == true).Count()</span> @localizer["Courses"]</h4>
+                            <p>@localizer["With us, you will learn all the skills required for the labor market, which makes you qualified for the labor market."]</p>
+                            <a href="/course/getAll" class="btn button-md">@localizer["Show Courses"]</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Form END -->
+        <div class="section-area section-sp1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 m-b30">
+                        <h2 class="title-head ">@localizer["Develop your level and"] <br /> <span class="text-primary">@localizer["prepare yourself"] </span></h2>
+                        <h4><span class="counter">@Model.Get_cousrses.Where(x => x.Is_active == true).Count()</span> @localizer["Courses"]</h4>
+                        <p>@localizer["With us, you will learn all the skills required for the labor market, which makes you qualified for the labor market."]</p>
+                        <a href="/course/getAll" class="btn button-md">@localizer["Show Courses"]</a>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 m-b30">
+                                <div class="feature-container">
+                                    <div class="feature-md text-white m-b20">
+                                        <a class="icon-cell"><img src="~/Client_assets/images/icon/icon1.png" alt=""></a>
+                                    </div>
+                                    <div class="icon-content">
+                                        <h5 class="ttr-tilte">@localizer["Certificate after the course"]</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 m-b30">
+                                <div class="feature-container">
+                                    <div class="feature-md text-white m-b20">
+                                        <a class="icon-cell"><img src="~/Client_assets/images/icon/icon2.png" alt=""></a>
+                                    </div>
+                                    <div class="icon-content">
+                                        <h5 class="ttr-tilte">@localizer["Always available"]</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 m-b30">
+                                <div class="feature-container">
+                                    <div class="feature-md text-white m-b20">
+                                        <a class="icon-cell"><img src="~/Client_assets/images/icon/icon3.png" alt=""></a>
+                                    </div>
+                                    <div class="icon-content">
+                                        <h5 class="ttr-tilte">@localizer["Improve yourself"]</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 m-b30">
+                                <div class="feature-container">
+                                    <div class="feature-md text-white m-b20">
+                                        <a class="icon-cell"><img src="~/Client_assets/images/icon/icon4.png" alt=""></a>
+                                    </div>
+                                    <div class="icon-content">
+                                        <h5 class="ttr-tilte">@localizer["Sharpen your skills"]</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="section-area section-sp1 bg-fix ovbl-dark text-white" style="background-image:url(/Client_assets/images/background/bg1.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+                        <div class="counter-style-1">
+                            <div class="text-white">
+                                <span class="counter">@Model.Get_cousrses.Where(x => x.Is_active == true).Count()</span><span>+</span>
+                            </div>
+                            <span class="counter-text">@localizer["Courses"]</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+                        <div class="counter-style-1">
+                            <div class="text-white">
+                                <span class="counter">@Model.Get_events.Where(x => x.Is_active == true).Count()</span><span>+</span>
+                            </div>
+                            <span class="counter-text">@localizer["Events"]</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+                        <div class="counter-style-1">
+                            <div class="text-white">
+                                <span class="counter">@Model.Get_blogs.Where(x => x.Is_active == true).Count()</span><span>+</span>
+                            </div>
+                            <span class="counter-text">@localizer["Blogs"]</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+                        <div class="counter-style-1">
+                            <div class="text-white">
+                                <span class="counter">@Model.Get_instructors.Where(x => x.Is_active == true).Count()</span><span>+</span>
+                            </div>
+                            <span class="counter-text">@localizer["Instructors"]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Testimonials END -->
+        <!-- Testimonials ==== -->
+        <div class="section-area section-sp2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 heading-bx left">
+                        <h2 class="title-head text-uppercase">@localizer["what student say"]</h2>
+                        <p>@localizer["Student comments after the courses"]</p>
+                    </div>
+                </div>
+                <div class="testimonial-carousel owl-carousel owl-btn-1 col-12 p-lr0">
+                    @foreach (var comment in Model.Get_comments.Where(x => x.Approval == true && x.Is_active == true))
+                    {
+                        <div class="item">
+                            <div class="testimonial-bx">
+                                <div class="testimonial-info">
+                                    <h5 class="name">@comment.Student_name</h5>
+                                    <p>-@comment.Course_specialty.Specialty</p>
+                                </div>
+                                <div class="testimonial-content">
+                                    <p>@comment.Content</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- Testimonials END ==== -->
+    </div>
+    <!-- contact area END -->
+</div>
+<!-- Content END-->
+@if (ViewBag.Success != null)
+{
+    @section Scripts {
+        <script type="text/javascript">
+            $(function () {
+                swal("@localizer["Good job"]!", "@ViewBag.Success", "success");
+            })
+        </script>
+    }
+}

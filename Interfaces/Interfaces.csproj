@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ViewModels\BlogVM\GetBlogViewModel.cs~RFb64f0f23.TMP" />
+    <None Remove="ViewModels\BookingVM\GetBookingViewModel.cs~RFb64f491f.TMP" />
+    <None Remove="ViewModels\CourseSpecialtyVM\GetCourseSpecialtyViewModel.cs~RFb650722d.TMP" />
+    <None Remove="ViewModels\EventVM\GetEventViewModel.cs~RFb650e877.TMP" />
+    <None Remove="ViewModels\GalleryVM\GetGalleryViewModel.cs~RFb6518e2d.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.12" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Entitis\Entitis.csproj" />
+  </ItemGroup>
+
+</Project>

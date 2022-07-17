@@ -1,0 +1,79 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "FaqForm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Faq"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        @if (Model.Save_faq.Id == Guid.Empty)
+        {
+            <li>@localizer["Add Faq"]</li>
+        }
+        else
+        {
+            <li>@localizer["Update Faq"]</li>
+        }
+    </ul>
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                @if (Model.Save_faq.Id == Guid.Empty)
+                {
+                    <h4>@localizer["Add Faq"]</h4>
+                }
+                else
+                {
+                    <h4>@localizer["Update Faq"]</h4>
+                }
+            </div>
+            <div class="widget-inner">
+                <form asp-action="Save" class="edit-profile m-b30">
+                    @if (Model.Save_faq.Id != Guid.Empty)
+                    {
+                        <input type="hidden" asp-for="Save_faq.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="ml-auto">
+                            </div>
+                        </div>
+                        <div class="form-group col-12">
+                            <label class="col-form-label">@localizer["Question"]</label>
+                            <div>
+                                <input asp-for="Save_faq.Question" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_faq.Question)</label>
+                        </div>
+                        <div class="seperator"></div>
+
+                        <div class="form-group col-12">
+                            <label class="col-form-label">@localizer["Answer"]</label>
+                            <div>
+                                <textarea asp-for="Save_faq.Answer" class="form-control"> </textarea>
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_faq.Answer)</label>
+                        </div>
+                        <div class="col-12">
+                            @if (!string.IsNullOrEmpty(Model.Save_faq.Error))
+                            {
+                                <div class="alert alert-danger">@Model.Save_faq.Error</div>
+                            }
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn">@localizer["Save changes"]</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>

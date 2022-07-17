@@ -1,0 +1,62 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Notifications"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        <li>@localizer["Notifications"]</li>
+    </ul>
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="email-wrapper">
+                <div class="mail-list-container">
+                    <div class="mail-box-list">
+                        @if (Model.Get_notifications.Count == 0)
+                        {
+                            <div class="alert alert-danger">@localizer["There is no notifications exist"]</div>
+                        }
+                        else
+                        {
+                            foreach (var notify in Model.Get_notifications.OrderByDescending(x => x.Id))
+                            {
+                                <div class="mail-list-info">
+                                    <div class="mail-list-title">
+                                        <h6>@notify.Content</h6>
+                                    </div>
+                                    <div class="mail-list-title-info"></div>
+                                    <div class="mail-list-time">
+                                        <span>@notify.Date</span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+
+            $.ajax({
+                type: "GET",
+                url: "/api/notifications/update-seen",
+                success: function () {
+                    checkNotificationUnSeen();
+                }
+            });
+        })
+    </script>
+}

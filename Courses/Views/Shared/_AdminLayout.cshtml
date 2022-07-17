@@ -1,0 +1,326 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    string logo = string.Empty;
+    if (Model.Get_application_intro == null)
+        logo = "";
+    else
+        logo = Model.Get_application_intro.Logo;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <!-- META ============================================= -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="robots" content="" />
+
+    <!-- DESCRIPTION -->
+    <meta name="description" content="EduChamp : Education HTML Template" />
+
+    <!-- OG -->
+    <meta property="og:title" content="EduChamp : Education HTML Template" />
+    <meta property="og:description" content="EduChamp : Education HTML Template" />
+    <meta property="og:image" content="" />
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- FAVICONS ICON ============================================= -->
+    <link rel="icon" href=".~/error-404.html" type="image/x-icon" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/Upload/Logo/@logo" />
+
+    <!-- PAGE TITLE HERE ============================================= -->
+    <title>EduChamp : Education HTML Template </title>
+
+    <!-- MOBILE SPECIFIC ============================================= -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.min.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    <!-- All PLUGINS CSS ============================================= -->
+    <link rel="stylesheet" type="text/css" href="~/Admin_assets/css/assets.css">
+    <link rel="stylesheet" type="text/css" href="~/Admin_assets/vendors/calendar/fullcalendar.css">
+
+    <!-- TYPOGRAPHY ============================================= -->
+    <link rel="stylesheet" type="text/css" href="~/Admin_assets/css/typography.css" asp-append-version="true">
+    <!-- SHORTCODES ============================================= -->
+    <link rel="stylesheet" type="text/css" href="~/Admin_assets/css/shortcodes/shortcodes.css">
+    <link href="~/Admin_assets/css/shortcodes/button.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/Admin_assets/css/shortcodes/alert.css" rel="stylesheet" asp-append-version="true" />
+    <!-- STYLESHEETS ============================================= -->
+    <link href="~/Admin_assets/css/jquery-te-1.4.0.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/Admin_assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/Admin_assets/css/dashboard.css">
+    <link class="skin" rel="stylesheet" type="text/css" href="~/Admin_assets/css/color/color-1.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri&display=swap" rel="stylesheet">
+
+</head>
+<body class="ttr-opened-sidebar ttr-pinned-sidebar">
+    <!-- header start -->
+    <header class="ttr-header">
+        <div class="ttr-header-wrapper">
+            <!--sidebar menu toggler start -->
+            <div class="ttr-toggle-sidebar ttr-material-button">
+                <i class="ti-close ttr-open-icon"></i>
+                <i class="ti-menu ttr-close-icon"></i>
+            </div>
+            <!--sidebar menu toggler end -->
+            <!--logo start -->
+            <div class="ttr-logo-box">
+                <div>
+                    <a href="/admin/index" class="ttr-logo">
+                        <img class="ttr-logo-mobile" alt="" src="~/Upload/Logo/@logo" width="30" height="30">
+                        <img class="ttr-logo-desktop" alt="" src="~/Upload/Logo/@logo" width="58" height="44">
+                    </a>
+                </div>
+            </div>
+            <!--logo end -->
+            <div class="ttr-header-menu">
+                <!-- header left menu start -->
+                <ul class="ttr-header-navigation">
+                    <li>
+                        <a href="/ADCPDA/index" class="ttr-material-button ttr-submenu-toggle">@localizer["HOME"]</a>
+                    </li>
+                </ul>
+                <!-- header left menu end -->
+            </div>
+            <div class="ttr-header-right ttr-with-seperator">
+                <!-- header right menu start -->
+                <ul class="ttr-header-navigation">
+                    <li>
+                        <a href="#" class="ttr-material-button show-notification ttr-submenu-toggle">
+                            <i class="fa fa-bell"></i>
+                            <span class="notification-red-ball">
+
+                            </span>
+                        </a>
+                        <div class="ttr-header-submenu noti-menu">
+                            <div class="noti-box-list">
+                                <ul id="notification-list">
+                                    @foreach (var notify in Model.Get_notifications)
+                                    {
+                                        <li>
+                                            <span class='notification-icon dashbg-green'>
+                                                <i class='fa fa-comments-o'></i>
+                                            </span>
+                                            <span class='notification-text'>
+                                                @notify.Content
+                                            </span>
+                                        </li>
+                                    }
+                                </ul>
+                                <hr />
+                                <a class="text-black" style="color:#222" href="/notification/index">
+                                    @localizer["Show more..."]
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="~/Admin_assets/images/testimonials/pic3.jpg" width="32" height="32"></span></a>
+                        <div class="ttr-header-submenu">
+                            <ul>
+                                <li><a href="/adcpda/logout">@localizer["Logout"]</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <!-- header right menu end -->
+            </div>
+        </div>
+    </header>
+    <!-- header end -->
+    <!-- Left sidebar menu start -->
+    <div class="ttr-sidebar">
+        <div class="ttr-sidebar-wrapper content-scroll">
+            <!-- side menu logo start -->
+            <div class="ttr-sidebar-logo">
+                <a href="/ADCPDA/index"><img alt="" src="~/Upload/Logo/@logo" width="52" style="height:37px"></a>
+                <!-- <div class="ttr-sidebar-pin-button" title="Pin/Unpin Menu">
+                    <i class="material-icons ttr-fixed-icon">gps_fixed</i>
+                    <i class="material-icons ttr-not-fixed-icon">gps_not_fixed</i>
+                </div> -->
+                <div class="ttr-sidebar-toggle-button">
+                    <i class="ti-arrow-left"></i>
+                </div>
+            </div>
+            <!-- side menu logo end -->
+            <!-- sidebar menu start -->
+            <nav class="ttr-sidebar-navi">
+                <ul>
+                    <li>
+                        <a href="/ADCPDA/index" class="ttr-material-button">
+                            <span class="ttr-icon"><i class="ti-home"></i></span>
+                            <span class="ttr-label">@localizer["Dashborad"]</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="ttr-material-button">
+                            <span class="ttr-icon"><i class="ti-book"></i></span>
+                            <span class="ttr-label">@localizer["Courses"]</span>
+                            <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="/course/index" class="ttr-material-button"><span class="ttr-label">@localizer["Courses"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/course/add" class="ttr-material-button"><span class="ttr-label">@localizer["Add Course"]</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="ttr-material-button">
+                            <span class="ttr-icon"><i class="ti-more"></i></span>
+                            <span class="ttr-label">@localizer["More"]</span>
+                            <span class="ttr-arrow-icon"><i class="fa fa-angle-down"></i></span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="/courseSpecialty/index" class="ttr-material-button"><span class="ttr-label">@localizer["Course Specialty"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/booking/index" class="ttr-material-button"><span class="ttr-label">@localizer["Booking"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/blog/index" class="ttr-material-button"><span class="ttr-label">@localizer["Blog"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/event/index" class="ttr-material-button"><span class="ttr-label">@localizer["Event"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/soical/index" class="ttr-material-button"><span class="ttr-label">@localizer["Soical"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/gallery/index" class="ttr-material-button"><span class="ttr-label">@localizer["Gallery"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/comment/index" class="ttr-material-button"><span class="ttr-label">@localizer["Comments"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/applicationIntro/index" class="ttr-material-button"><span class="ttr-label">@localizer["Intro"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/instructor/index" class="ttr-material-button"><span class="ttr-label">@localizer["Instructor"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/faq/index" class="ttr-material-button"><span class="ttr-label">@localizer["Faq"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/newsLetter/index" class="ttr-material-button"><span class="ttr-label">@localizer["News Letter"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/user/index" class="ttr-material-button"><span class="ttr-label">@localizer["Admin"]</span></a>
+                            </li>
+                            <li>
+                                <a href="/loginAttemp/index" class="ttr-material-button"><span class="ttr-label">@localizer["Login Attemp"]</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/Setting/index" class="ttr-material-button">
+                            <span class="ttr-icon"><i class="ti-settings"></i></span>
+                            <span class="ttr-label">@localizer["Setting"]</span>
+                        </a>
+                    </li>
+                    <li class="ttr-seperate"></li>
+                </ul>
+                <!-- sidebar menu end -->
+            </nav>
+            <!-- sidebar menu end -->
+        </div>
+    </div>
+    <!-- Left sidebar menu end -->
+    <main class="ttr-wrapper">
+        <div class="container-fluid">
+            @RenderBody()
+        </div>
+    </main>
+    <div class="ttr-overlay"></div>
+
+    <script src="~/Admin_assets/js/jquery.min.js"></script>
+    <script src="~/Admin_assets/vendors/bootstrap/js/popper.min.js"></script>
+    <script src="~/Admin_assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Admin_assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/Admin_assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+    <script src="~/Admin_assets/vendors/magnific-popup/magnific-popup.js"></script>
+    <script src="~/Admin_assets/vendors/counter/waypoints-min.js"></script>
+    <script src="~/Admin_assets/vendors/counter/counterup.min.js"></script>
+    <script src="~/Admin_assets/vendors/imagesloaded/imagesloaded.js"></script>
+    <script src="~/Admin_assets/vendors/masonry/masonry.js"></script>
+    <script src="~/Admin_assets/vendors/masonry/filter.js"></script>
+    <script src="~/Admin_assets/vendors/owl-carousel/owl.carousel.js"></script>
+    <script src='~/Admin_assets/vendors/scroll/scrollbar.min.js'></script>
+    <script src="~/Admin_assets/js/functions.js"></script>
+    <script src="~/Admin_assets/vendors/chart/chart.min.js"></script>
+    <script src="~/Admin_assets/js/admin.js"></script>
+    <script src="~/Admin_assets/js/jquery-te-1.4.0.min.js"></script>
+    <script src='~/Admin_assets/vendors/calendar/moment.min.js'></script>
+    <script src='~/Admin_assets/vendors/calendar/fullcalendar.js'></script>
+    <script>
+        $(function () {
+            $("textarea").jqte();
+            checkNotificationUnSeen();
+        });
+
+        $(".show-notification").click(function () {
+
+            $.ajax({
+                type: "GET",
+                url: "/api/notifications/update-seen",
+                success: function (res) {
+                    checkNotificationUnSeen();
+                    fillData(res);
+                }
+            });
+        });
+
+        function fillData(res) {
+            var c = "";
+            for (var i = 0; i < res.length; i++) {
+                c += "<li>";
+                c += "<span class='notification-icon dashbg-green'>";
+                c += "<i class='fa fa-comments-o'></i>";
+                c += "</span>";
+                c += "<span class='notification-text'>";
+                c += res[i].content;
+                c += "</span>";
+                c += "</li>";
+            }
+            $("#notification-list").html(c);
+        }
+        function checkNotificationUnSeen() {
+
+            $.ajax({
+                type: "GET",
+                url: "/api/notifications/get-unSeen-count",
+                success: function (res) {
+                    var c = "";
+                    if (res != 0) {
+
+                        c += "<span style='display: inline-block;background: #f00; padding: 4px; border-radius: 40px;'></span>";
+                        c += "<audio id='myAudio' autoplay>";
+                        c += "<source src='../Notification_ring/16403-download-iphone-note-sms-ringtone-iphone-sms-ringtones-54737.mp3' type='audio/mp3'>";
+                        c += "</audio>";
+                    }
+                    else {
+
+                        c += "";
+                    }
+
+                    $(".notification-red-ball").html(c);
+                }
+            });
+        }
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

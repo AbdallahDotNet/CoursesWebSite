@@ -1,0 +1,87 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Blogs"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        <li>@localizer["Blogs"]</li>
+    </ul>
+</div>
+<div class="add">
+    <a href="/blog/add" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>@localizer["Add New"]</a>
+    <br /><br />
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                <h4>@localizer["Blogs"]</h4>
+            </div>
+            <div class="widget-inner">
+                @if (Model.Get_blogs.Count() == 0)
+                {
+                    <div class="alert alert-danger">@localizer["There is no blogs exist"]</div>
+                }
+                else
+                {
+                    @foreach (var blog in Model.Get_blogs.OrderByDescending(x => x.Id))
+                    {
+                        string opacity = (blog.Is_active == false) ? "opacity:.5" : "opacity:1";
+
+                        <div class="card-courses-list admin-courses" style="@opacity">
+                            <div class="card-courses-media">
+                                <img src="~/Upload/Blogs/@blog.Image" alt="" />
+                            </div>
+                            <div class="card-courses-full-dec">
+                                <div class="card-courses-title">
+                                    <h4>@blog.Title</h4>
+                                </div>
+                                <div class="card-courses-list-bx">
+                                    <ul class="card-courses-view">
+                                        <li class="card-courses-user">
+                                            <div class="card-courses-user-info">
+                                                <h5>@localizer["Publisher"]</h5>
+                                                <h4>@blog.Publisher</h4>
+                                            </div>
+                                        </li>
+                                        <li class="card-courses-categories">
+                                            <h5>@localizer["Posted Date"]</h5>
+                                            <h4>@blog.Posted_date.ToString("d/M/yyyy")</h4>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="row card-courses-dec">
+                                    <div class="col-md-12">
+                                        <a href="/blog/update/@blog.Id" class="btn green radius-xl outline">@localizer["Edit"]</a>
+                                        @if (blog.Is_active == true)
+                                        {
+                                            <button id="@blog.Id" class="btn del red outline radius-xl ">@localizer["Delete"]</button>
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>
+@section Scripts {
+    <script>
+
+        $(".del").click(function () {
+            if (confirm("do you want to delete this item!")) {
+                location.href = "/blog/delete/" + $(this).attr("id");
+            }
+        })
+    </script>
+}

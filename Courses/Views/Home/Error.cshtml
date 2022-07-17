@@ -1,0 +1,97 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- META ============================================= -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="robots" content="" />
+
+    <!-- DESCRIPTION -->
+    <meta name="description" content="EduChamp : Education HTML Template" />
+
+    <!-- OG -->
+    <meta property="og:title" content="EduChamp : Education HTML Template" />
+    <meta property="og:description" content="EduChamp : Education HTML Template" />
+    <meta property="og:image" content="" />
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- FAVICONS ICON ============================================= -->
+    <link rel="icon" href="~/Upload/Logo/@Model.Get_application_intro.Logo" type="image/x-icon" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/Upload/Logo/@Model.Get_application_intro.Logo" />
+
+    <!-- PAGE TITLE HERE ============================================= -->
+    <title>EduChamp : Education HTML Template </title>
+
+    <!-- MOBILE SPECIFIC ============================================= -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--[if lt IE 9]>
+    <script src="~/Client_assets/js/html5shiv.min.js"></script>
+    <script src="~/Client_assets/js/respond.min.js"></script>
+    <![endif]-->
+    <!-- All PLUGINS CSS ============================================= -->
+    <link rel="stylesheet" type="text/css" href="~/Client_assets/css/assets.css">
+
+    <!-- TYPOGRAPHY ============================================= -->
+    <link rel="stylesheet" type="text/css" href="~/Client_assets/css/typography.css" asp-append-version="true">
+
+    <!-- SHORTCODES ============================================= -->
+    <link rel="stylesheet" type="text/css" href="~/Client_assets/css/shortcodes/shortcodes.css">
+    <link href="~/Client_assets/css/shortcodes/button.css" rel="stylesheet" asp-append-version="true"/>
+    <!-- STYLESHEETS ============================================= -->
+    <link rel="stylesheet" type="text/css" href="/Client_assets/css/style.css">
+    <link class="skin" rel="stylesheet" type="text/css" href="~/Client_assets/css/color/color-1.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri&display=swap" rel="stylesheet">
+
+</head>
+<body id="bg">
+    <div class="page-wraper">
+        <div id="loading-icon-bx"></div>
+        <div class="account-form">
+            <div class="account-head" style="background-image:url(/Client_assets/images/background/bg2.jpg);">
+            </div>
+            <div class="account-form-inner">
+                <div class="account-container">
+                    <div class="error-page">
+                        <h3>@localizer["Ooopps :("]</h3>
+                        <h2 class="error-title">404</h2>
+                        <h5>@localizer["The Page you were looking for, couldn't be found"]</h5>
+                        <b class="text-danger">@ViewBag.Error!</b>
+                        <p>@localizer["The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."]</p>
+                        <div class="">
+                            <a href="/home/index" class="btn m-r5">@localizer["Back To Home"]</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- External JavaScripts -->
+    <script src="~/Client_assets/js/jquery.min.js"></script>
+    <script src="~/Client_assets/vendors/bootstrap/js/popper.min.js"></script>
+    <script src="~/Client_assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Client_assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="~/Client_assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+    <script src="~/Client_assets/vendors/magnific-popup/magnific-popup.js"></script>
+    <script src="~/Client_assets/vendors/counter/waypoints-min.js"></script>
+    <script src="~/Client_assets/vendors/counter/counterup.min.js"></script>
+    <script src="~/Client_assets/vendors/imagesloaded/imagesloaded.js"></script>
+    <script src="~/Client_assets/vendors/masonry/masonry.js"></script>
+    <script src="~/Client_assets/vendors/masonry/filter.js"></script>
+    <script src="~/Client_assets/vendors/owl-carousel/owl.carousel.js"></script>
+    <script src="~/Client_assets/js/functions.js"></script>
+    <script src="~/Client_assets/js/contact.js"></script>
+</body>
+
+</html>

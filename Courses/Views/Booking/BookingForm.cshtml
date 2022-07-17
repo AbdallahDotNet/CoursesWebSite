@@ -1,0 +1,104 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "Booking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="page-content bg-white">
+    <!-- inner page banner -->
+    <div class="page-banner ovbl-dark" style="background-image:url(/Client_assets/images/banner/banner3.jpg);">
+        <div class="container">
+            <div class="page-banner-entry">
+                <h1 class="text-white">@localizer["Booking"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb row -->
+    <div class="breadcrumb-row">
+        <div class="container">
+            <ul class="list-inline">
+                <li><a href="/home/index">@localizer["Home"]</a></li>
+                <li>@localizer["Booking"]</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Breadcrumb row END -->
+    <!-- inner page banner -->
+    <div class="page-banner contact-page section-sp2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 m-b30">
+                    <div class="bg-primary text-white contact-info-bx m-b30">
+                        <h2 class="m-b10 title-head">@localizer["Contact Information"]</h2>
+                        <p>@localizer["We are available at all times. Contact us through the following information"]</p>
+                        <div class="widget widget_getintuch">
+                            <ul>
+                                <li><i class="ti-location-pin"></i>@Model.Get_application_intro.Address</li>
+                                <li><i class="ti-mobile"></i>@Model.Get_application_intro.Phone</li>
+                                <li><i class="ti-email"></i>@Model.Get_application_intro.Email</li>
+                            </ul>
+                        </div>
+                        <h5 class="m-t0 m-b20">@localizer["Follow Us"]</h5>
+                        <ul class="list-inline contact-social-bx">
+                            @if (!string.IsNullOrEmpty(Model.Get_soical.Facebook))
+                            {
+                                <li><a href="@Model.Get_soical.Facebook" class="btn outline radius-xl"><i class="fa fa-facebook"></i></a></li>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Get_soical.Twitter))
+                            {
+                                <li><a href="@Model.Get_soical.Twitter" class="btn outline radius-xl"><i class="fa fa-twitter"></i></a></li>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Get_soical.Linkedin))
+                            {
+                                <li><a href="@Model.Get_soical.Linkedin" class="btn outline radius-xl"><i class="fa fa-linkedin"></i></a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7">
+                    <form class="contact-bx" asp-controller="Booking" asp-action="Save">
+                        <div class="heading-bx left">
+                            <h2 class="title-head">@localizer["Booking now"]</h2>
+                            <p>@localizer["Please take advantage of the courses we offer, book now"]</p>
+                        </div>
+                        <div class="row placeani">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label>@localizer["Your Name"]</label>
+                                        <input type="hidden" asp-for="Save_booking.Course_id" value="@Model.Course_id" />
+                                        <input asp-for="Save_booking.Student_name" class="form-control" required >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label>@localizer["Your Phone"]</label>
+                                        <input asp-for="Save_booking.Phone" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label>@localizer["Code"]</label>
+                                        <input name="captchaCode" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <button type="submit" value="Submit" class="btn button-md">@localizer["Confirm"]</button>
+                            </div>
+                        </div>
+                    </form>
+                    <br />
+                    <img id="img-captcha" src="~/get-captcha-image" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- inner page banner END -->
+</div>

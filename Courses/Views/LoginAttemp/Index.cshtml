@@ -1,0 +1,131 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Login Attemps"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        <li>@localizer["Login Attemps"]</li>
+    </ul>
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                <h4>@localizer["Login Attemps"]</h4>
+            </div>
+            <div class="widget-inner">
+                @if (Model.Get_login_attemps.Count == 0)
+                {
+                    <div class="alert alert-danger">@localizer["There is no failed attemps"]</div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input id="search" class="form-control" placeholder="@localizer["Search"]" />
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn refresh">@localizer["Refresh"]</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">@localizer["Ip Address"]</th>
+                                <th scope="col">@localizer["Attemps"]</th>
+                                <th scope="col">@localizer["Date"]</th>
+                                <th scope="col">@localizer["Blocked"]</th>
+                            </tr>
+                        </thead>
+                        <tbody id="body">
+                            @foreach (var attemp in Model.Get_login_attemps)
+                            {
+                                <tr>
+                                    <td>@attemp.Ip_address</td>
+                                    <td>@attemp.Attemps</td>
+                                    <td>@attemp.Date</td>
+                                    <td>
+                                        @if (attemp.Blocked)
+                                        {
+                                            <label class="text-danger">@localizer["Blocked"]</label>
+                                        }
+                                        else
+                                        {
+                                            <label class="text-warning">@localizer["After 2 Attemps"]</label>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>
+
+@section Scripts {
+    <script>
+
+        $(".refresh").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/loginAttemps",
+                success: function (res) {
+                    fillData(res);
+                }
+            })
+        })
+
+        $("#search").on("keyup", function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/loginAttemps/search/" + $(this).val(),
+                success: function (res) {
+                    fillData(res);
+                }
+            })
+        })
+
+        function fillData(res) {
+            var c = "";
+            for (var i = 0; i < res.length; i++) {
+                c += "<tr>";
+                c += "<td>";
+                c += res[i].ip_address;
+                c += "</td>";
+                c += "<td>";
+                c += res[i].attemps;
+                c += "</td>";
+                c += "<td>";
+                c += res[i].date;
+                c += "</td>";
+                if (res[i].blocked == true) {
+                    c += "<td>";
+                    c += "<label class='text-danger'>Blocked</label>";
+                    c += "</td>";
+                }
+                else {
+                    c += "<td>";
+                    c += "<label class='text-warning'>After 2 Attemps</label>";
+                    c += "</td>";
+                }
+                c += "</tr>";
+            }
+            $("#body").html(c);
+        }
+    </script>
+}

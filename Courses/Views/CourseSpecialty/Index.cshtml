@@ -1,0 +1,54 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Course Specialty"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        <li>@localizer["Course Specialty"]</li>
+    </ul>
+</div>
+<div class="add">
+    <a href="/courseSpecialty/add" class="btn-secondry add-item m-r5"><i class="fa fa-fw fa-plus-circle"></i>@localizer["Add New"]</a>
+    <br /><br />
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="email-wrapper">
+                <div class="mail-list-container">
+                    <div class="mail-box-list">
+                        @if (Model.Get_course_specialtys.Count == 0)
+                        {
+                            <div class="alert alert-danger">@localizer["There is no course specialties exist"]</div>
+                        }
+                        else
+                        {
+                            int num = 0;
+                            foreach (var specialty in Model.Get_course_specialtys.OrderByDescending(x => x.Id))
+                            {
+                                string opacity = (specialty.Is_active == false) ? "opacity:.5" : "opacity:1";
+                                num++;
+                                <div class="mail-list-info" style="@opacity">
+                                    <div class="mail-list-title">
+                                        <h6>@num . @specialty.Specialty</h6>
+                                    </div>
+                                    <ul class="mailbox-toolbar">
+                                        <li data-toggle="tooltip" title="Edit"><a href="/courseSpecialty/update/@specialty.Id"><i class="fa fa-edit"></i></a></li>
+                                    </ul>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>
+

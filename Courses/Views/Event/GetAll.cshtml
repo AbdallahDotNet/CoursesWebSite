@@ -1,0 +1,102 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="page-content bg-white">
+    <!-- inner page banner -->
+    <div class="page-banner ovbl-dark" style="background-image:url(/Client_assets/images/banner/banner3.jpg);">
+        <div class="container">
+            <div class="page-banner-entry">
+                <h1 class="text-white">@localizer["Events"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb row -->
+    <div class="breadcrumb-row">
+        <div class="container">
+            <ul class="list-inline">
+                <li><a href="/home/index">@localizer["Home"]</a></li>
+                <li>@localizer["Events"]</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Breadcrumb row END -->
+    <!-- contact area -->
+    <div class="content-block">
+        <!-- Portfolio  -->
+        <div class="section-area section-sp1 gallery-bx">
+            <div class="container">
+                <div class="feature-filters clearfix center m-b40">
+                    <ul class="filters" data-toggle="buttons">
+                        <li data-filter="" class="btn active">
+                            <input type="radio">
+                            <a href="#"><span>@localizer["All"]</span></a>
+                        </li>
+                        <li data-filter="upcoming" class="btn">
+                            <input type="radio">
+                            <a href="#"><span>@localizer["Upcoming"]</span></a>
+                        </li>
+                        <li data-filter="expired" class="btn">
+                            <input type="radio">
+                            <a href="#"><span>@localizer["Expired"]</span></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clearfix">
+                    <ul id="masonry" class="ttr-gallery-listing magnific-image row">
+                        @foreach (var _event in Model.Get_events.Where(x => x.Is_active == true))
+                        {
+                            string state = "";
+                            if (_event.Date > DateTime.Now)
+                            { state = "upcoming"; }
+                            else { state = "expired"; }
+                            <li class="action-card col-lg-6 col-md-6 col-sm-12 @state">
+                                <div class="event-bx m-b30">
+                                    <div class="action-box">
+                                        <img src="~/Upload/Events/@_event.Image" style="height:350px" alt="">
+                                    </div>
+                                    <div class="info-bx d-flex">
+                                        <div>
+                                            <div class="event-time">
+                                                <div class="event-date">@_event.Date.Day</div>
+                                                @{
+                                                    string monthName = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(_event.Date.Month);
+                                                }
+                                                <div class="event-month">@monthName</div>
+                                            </div>
+                                        </div>
+                                        <div class="event-info">
+                                            <h4 class="event-title"><a href="/event/details/@_event.Id">@_event.Title</a></h4>
+                                            @{
+                                                string timing = "";
+                                                if (_event.Timing == 0)
+                                                {
+                                                    timing = "am";
+                                                }
+                                                else
+                                                {
+                                                    timing = "pm";
+                                                }
+                                            }
+                                            <ul class="media-post">
+                                                <li><a href="#"><i class="fa fa-clock-o"></i> @_event.Date.ToString("h:m:s") @timing</a></li>
+                                                <li><a href="#"><i class="fa fa-map-marker"></i> @_event.Address</a></li>
+                                            </ul>
+                                            <p>@Html.Raw(_event.Content.Substring(0, 140))..</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- contact area END -->
+</div>

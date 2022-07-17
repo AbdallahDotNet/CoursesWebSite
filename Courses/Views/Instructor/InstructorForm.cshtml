@@ -1,0 +1,128 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "InstructorForm";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Instructor"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        @if (Model.Save_instructor.Id == Guid.Empty)
+        {
+            <li>@localizer["Add Instructor"]</li>
+        }
+        else
+        {
+            <li>@localizer["Update Instructor"]</li>
+        }
+    </ul>
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                @if (Model.Save_instructor.Id == Guid.Empty)
+                {
+                    <h4>@localizer["Add Instructor"]</h4>
+                }
+                else
+                {
+                    <h4>@localizer["Update Instructor"]</h4>
+                }
+            </div>
+            <div class="widget-inner">
+                <form asp-action="Save" class="edit-profile m-b30" enctype="multipart/form-data">
+                    @if (Model.Save_instructor.Id != Guid.Empty)
+                    {
+                        <input type="hidden" asp-for="Save_instructor.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="ml-auto">
+                                <h3>1. @localizer["Personal Details"]</h3>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Full Name"]</label>
+                            <div>
+                                <input asp-for="Save_instructor.Name" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_instructor.Name)</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Short Description"]</label>
+                            <div>
+                                <input asp-for="Save_instructor.Short_description" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_instructor.Short_description)</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Rate"]</label>
+                            <div>
+                                <input asp-for="Save_instructor.Rate" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Specialty"]</label>
+                            <div>
+                                <input asp-for="Save_instructor.Specialty" class="form-control">
+                            </div>
+                            <label class="text-danger">@Html.ValidationMessageFor(m => m.Save_instructor.Specialty)</label>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Image"]</label>
+                            <div>
+                                @if (!string.IsNullOrEmpty(Model.Save_instructor.Image))
+                                {
+                                    <input type="hidden" asp-for="Save_instructor.Image" />
+                                }
+                                <input asp-for="Save_instructor.File" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
+
+                        <div class="col-12 m-t20">
+                            <div class="ml-auto">
+                                <h3 class="m-form__section">3. @localizer["Social Links"]</h3>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Linkedin"]</label>
+                            <div>
+                                <input asp-for="Save_instructor.Linkedin" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Facebook"]</label>
+                            <div>
+                                <input asp-for="Save_instructor.Facebook" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label class="col-form-label">@localizer["Twitter"]</label>
+                            <div>
+                                <input asp-for="Save_instructor.Twitter" class="form-control" type="text">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            @if (!string.IsNullOrEmpty(Model.Save_instructor.Error))
+                            {
+                                <div class="alert alert-danger">@Model.Save_instructor.Error</div>
+                            }
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn">@localizer["Save changes"]</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>

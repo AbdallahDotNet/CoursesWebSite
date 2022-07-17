@@ -1,0 +1,118 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Bookings"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        <li>@localizer["Bookings"]</li>
+    </ul>
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="email-wrapper">
+                <div class="mail-list-container">
+                    <div class="mail-toolbar">
+                        <div class="mail-search-bar">
+                            <input type="text" id="search" class="form-control" placeholder="@localizer["Search"]">
+                        </div>
+                        <div class="next-prev-btn">
+                            <button class="btn refresh">@localizer["Refresh"]</button>
+                        </div>
+                    </div>
+                    <div class="mail-box-list bL">
+                        @if (Model.Get_bookings.Count == 0)
+                        {
+                            <div class="alert alert-danger">@localizer["There are no bookings exist"]</div>
+                        }
+                        else
+                        {
+                            @foreach (var booking in Model.Get_bookings.OrderByDescending(x => x.Id))
+                            {
+                                string opacity = (booking.Is_active == false) ? "opacity:.5" : "opacity:1";
+
+                                <div class="mail-list-info" style="@opacity">
+                                    <div class="mail-list-title">
+                                        <h6>@booking.Student_name</h6>
+                                    </div>
+                                    <div class="mail-list-title-info">
+                                        <p>@booking.Phone</p>
+                                    </div>
+                                    <div class="mail-list-time">
+                                        <span>@booking.Courses.Title</span>
+                                    </div>
+                                    @if (booking.Is_active == true)
+                                    {
+                                        <ul class="mailbox-toolbar">
+                                            <li data-toggle="tooltip" title="Delete"><i id="@booking.Id" class="fa fa-trash-o del"></i></li>
+                                        </ul>
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>
+
+@section Scripts {
+    <script>
+
+        $(".del").click(function () {
+            if (confirm("do you want to delete this item!")) {
+                location.href = "/booking/delete/" + $(this).attr("id");
+            }
+        })
+
+        $(".refresh").click(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/bookings",
+                success: function (res) {
+                    fillData(res);
+                }
+            })
+        })
+
+        $("#search").on("keyup", function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/bookings/search/" + $(this).val(),
+                success: function (res) {
+                    fillData(res);
+                }
+            })
+        })
+
+        function fillData(res) {
+            var c = "";
+            for (var i = 0; i < res.length; i++) {
+                c += "<div class='mail-list-info'>";
+                c += "<div class='mail-list-title'>";
+                c += "<h6>" + res[i].student_name + "</h6>";
+                c += "</div>";
+                c += "<div class='mail-list-title-info'>";
+                c += "<p>" + res[i].phone + "</p>";
+                c += "</div>";
+                c += "<div class='mail-list-time'>";
+                c += "<span>" + res[i].courses.title + "</span>";
+                c += "</div>";
+                c += "<ul class='mailbox-toolbar'>"
+                c += "<li data-toggle='tooltip' title='Delete'><i id='" + res[i].id + "' class='fa fa-trash-o del'></i></li>";
+                c += "</ul>";
+                c += "</div>";
+            }
+            $(".bL").html(c);
+        }
+    </script>
+}

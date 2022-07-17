@@ -1,0 +1,150 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="page-content bg-white">
+    <!-- inner page banner -->
+    <div class="page-banner ovbl-dark" style="background-image:url(/Client_assets/images/banner/banner3.jpg);">
+        <div class="container">
+            <div class="page-banner-entry">
+                <h1 class="text-white">@localizer["Our Courses"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb row -->
+    <div class="breadcrumb-row">
+        <div class="container">
+            <ul class="list-inline">
+                <li><a href="/home/index">@localizer["Home"]</a></li>
+                <li>@localizer["Our Courses"]</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Breadcrumb row END -->
+    <!-- inner page banner END -->
+    <div class="content-block">
+        <!-- About Us -->
+        <div class="section-area section-sp1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
+                        <div class="widget widget_archive">
+                            <h5 class="widget-title style-1">@localizer["Courses Specialties"]</h5>
+                            <ul>
+                                @foreach (var specialty in Model.Get_course_specialtys.Where(x => x.Is_active == true))
+                                {
+                                    <li><a href="/course/getAll?specialtyId=@specialty.Id">@specialty.Specialty</a></li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="widget">
+                            <a><img src="~/Client_assets/images/adv/adv.jpg" alt="" /></a>
+                        </div>
+                        <div class="widget recent-posts-entry widget-courses">
+                            <h5 class="widget-title style-1">@localizer["Recent Courses"]</h5>
+                            @foreach (var recentCourse in Model.Get_cousrses.Where(x => x.Is_active == true).TakeLast(3))
+                            {
+                                <div class="widget-post-bx">
+                                    <div class="widget-post clearfix">
+                                        <div class="ttr-post-media"> <img src="~/Upload/Courses/@recentCourse.Image" width="200" style="height:67.39px" alt=""> </div>
+                                        <div class="ttr-post-info">
+                                            <div class="ttr-post-header">
+                                                <h6 class="post-title"><a href="/course/details/@recentCourse.Id">@recentCourse.Title</a></h6>
+                                            </div>
+                                            <div class="ttr-post-meta">
+                                                <ul>
+                                                    <li class="price">
+                                                        @if (recentCourse.Discount_value != 0)
+                                                        {
+                                                            <del>@Model.Get_application_intro.Coin @recentCourse.Price</del>
+                                                            <h5 class="text-primary">@Model.Get_application_intro.Coin @recentCourse.Price_after_discount</h5>
+                                                        }
+                                                        else
+                                                        {
+                                                            <h5 class="text-primary">@Model.Get_application_intro.Coin @recentCourse.Price</h5>
+                                                        }
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-8 col-sm-12">
+                        <div class="row">
+                            @foreach (var course in Model.Get_cousrses_pagination)
+                            {
+                                <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+                                    <div class="cours-bx">
+                                        <div class="action-box">
+                                            <img src="~/Upload/Courses/@course.Image" alt="">
+                                            <a href="/course/details/@course.Id" class="btn">@localizer["Read More"]</a>
+                                        </div>
+                                        <div class="info-bx text-center">
+                                            <h5><a href="/course/details/@course.Id">@course.Title.Substring(0,22)...</a></h5>
+                                            <span>@course.Course_specialty.Specialty</span>
+                                        </div>
+                                        <div class="cours-more-info">
+                                            <div class="review">
+                                                <span>@localizer["Rate"]</span>
+                                                <ul class="cours-star">
+                                                    @{
+                                                        var rate = course.Rate;
+
+                                                        for (int i = 0; i < rate; i++)
+                                                        {
+                                                            <li class="active"><i class="fa fa-star"></i></li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </div>
+                                            <div class="price">
+                                                @if (course.Discount_value != 0)
+                                                {
+                                                    <del>@Model.Get_application_intro.Coin @course.Price</del>
+                                                    <h5 class="text-primary">@Model.Get_application_intro.Coin @course.Price_after_discount</h5>
+                                                }
+                                                else
+                                                {
+                                                    <h5 class="text-primary">@Model.Get_application_intro.Coin @course.Price</h5>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="col-lg-12 m-b20">
+                                @{
+                                    var prevDisable = !Model.Get_cousrses_pagination.Prev ? "none" : "block";
+                                    var nextDisable = !Model.Get_cousrses_pagination.Next ? "none" : "block";
+                                }
+                                <div class="pagination-bx rounded-sm gray clearfix">
+                                    <ul class="pagination">
+                                        <li class="previous">
+                                            <a asp-route-pageNumber="@(Model.Get_cousrses_pagination.Page_index - 1)"
+                                               style="display:@prevDisable"><i class="ti-arrow-left"></i> @localizer["Prev"]</a>
+                                        </li>
+                                        <li class="next">
+                                            <a asp-route-pageNumber="@(Model.Get_cousrses_pagination.Page_index + 1)"
+                                               style="display:@nextDisable">@localizer["Next"] <i class="ti-arrow-right"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- contact area END -->
+
+</div>

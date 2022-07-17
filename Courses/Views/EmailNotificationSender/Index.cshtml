@@ -1,0 +1,64 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model ContainerViewModels
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="db-breadcrumb">
+    <h4 class="breadcrumb-title">@localizer["Send Notification"]</h4>
+    <ul class="db-breadcrumb-list">
+        <li><a href="/admin/index"><i class="fa fa-home"></i>@localizer["Home"]</a></li>
+        <li>@localizer["Send Notification"]</li>
+    </ul>
+</div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                <h4>@localizer["Send Notification"]</h4>
+            </div>
+            <div class="widget-inner">
+                <form asp-action="Send" class="edit-profile m-b30">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="ml-auto">
+                                <div class="alert alert-warning">@localizer["notice : If there are many emails in the newsletter, it may take some time to send"]</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-12">
+                            <label class="col-form-label">@localizer["Subject"]</label>
+                            <div>
+                                <input asp-for="Mail_request.Subject" class="form-control">
+                            </div>
+                        </div>
+                        <div class="seperator"></div>
+
+                        <div class="form-group col-12">
+                            <label class="col-form-label">@localizer["Content"]</label>
+                            <div>
+                                <textarea asp-for="Mail_request.Body" class="form-control"> </textarea>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            @if (!string.IsNullOrEmpty(Model.Mail_request.Error))
+                            {
+                                <div class="alert alert-danger">@Model.Mail_request.Error</div>
+                            }
+                            @if (!string.IsNullOrEmpty(ViewBag.SendSuccessed))
+                            {
+                                <div class="alert alert-success">@ViewBag.SendSuccessed</div>
+                            }
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn">@localizer["Send"]</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>
